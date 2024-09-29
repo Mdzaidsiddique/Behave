@@ -33,18 +33,16 @@ pipeline {
         }
     }
 
-    post {
+   post {
         always {
-            // Archive test results or logs, if any
-            archiveArtifacts artifacts: 'results/**', fingerprint: true
+            echo 'Cleaning up workspace'
+            cleanWs()
         }
-
         success {
-            echo 'Tests passed!'
+            echo 'Build succeeded, tests passed!'
         }
-
         failure {
-            echo 'Tests failed!'
+            echo 'Build failed, please check the logs.'
         }
     }
 }
