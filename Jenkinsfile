@@ -14,7 +14,7 @@ pipeline {
                 // Install Python dependencies
                 script {
                     // Use pip to install dependencies from requirements.txt
-                    sh 'pip install -r requirements.txt'
+                    bat 'pip install -r requirements.txt'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                 // Run Behave tests
                 script {
                     // Change to the directory where your features are located if needed
-                    sh 'behave'
+                    bat 'behave'
                 }
             }
         }
