@@ -11,11 +11,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Install Python dependencies
-                script {
-                    // Use pip to install dependencies from requirements.txt
-                    bat 'pip install -r requirements.txt'
-                }
+                bat '''
+                    echo Checking Python and Pip versions...
+                    python --version
+                    pip --version
+                    echo Installing dependencies...
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
 
