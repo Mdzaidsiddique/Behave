@@ -1,33 +1,45 @@
 pipeline {
-    agent any 
+    agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                // Clone your GitHub repository
-                git 'https://github.com/Mdzaidsiddique/Behave.git'
+                // Checkout the code from GitHub
+                git branch: 'main', url: 'https://github.com/Mdzaidsiddique/Behave.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Install Python packages using pip
-                bat 'pip install -r requirements.txt'
+                // Install Python dependencies
+                script {
+                    // Use pip to install dependencies from requirements.txt
+                    sh 'pip install -r requirements.txt'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
                 // Run Behave tests
-                bat 'behave'
+                script {
+                    // Change to the directory where your features are located if needed
+                    sh 'behave'
+                }
             }
         }
     }
 
     post {
-        success {
-            echo 'Tests passed successfully!'
+        always {
+            // Archive test results or logs, if any
+            archiveArtifacts artifacts: 'results/**', fingerprint: true
         }
+
+        success {
+            echo 'Tests passed!'
+        }
+
         failure {
             echo 'Tests failed!'
         }
